@@ -2,3 +2,5 @@ venv/*
 db.sqlite3
 .envrc
 .DS_Store
+*__pycache__
+*__pycache__/*.pyc
