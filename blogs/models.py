@@ -12,20 +12,23 @@ class Author(models.Model):
     small_img = models.URLField(max_length=255, default='http://g.foolcdn.com/avatar/1593347483/small.ashx')
     large_img = models.URLField(max_length=255, default='http://g.foolcdn.com/avatar/1593347483/large.ashx')
     short_bio = models.CharField(max_length=500, null=True)
-    articles = models.Many
+
     class Meta:
         unique_together = ('username', 'email')
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     slug = AutoSlugField(max_length=36, populate_from='name', overwrite=True)
 
+    class Meta:
+        unique_together = ('name', 'slug')
 
 class Article(models.Model):
     author = models.ForeignKey('Author', on_delete=models.CASCADE)
     tags = models.ManyToManyField('Tag')
     body = models.TextField(max_length=8000)
+    promo = models.CharField(max_length=400, null=True)
 
     @property
     def by_line(self):
