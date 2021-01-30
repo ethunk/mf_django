@@ -1,5 +1,7 @@
 import json
-from blogs.models import Author, Tag, Article, Image
+from blogs.models import Author, Tag, Article, Image, StockTicker
+from datetime import datetime
+
 
 contents = json.load(open('content_api.json'))['results']
 
@@ -27,21 +29,27 @@ for content in contents:
     Tag.objects.bulk_create(tag_objects)
 
 article_objects = []
-for i, content in enumerate(contents):
-    if i == 0:
-        continue
+for content in contents:
     author = content['authors'][0]
     author = Author.objects.get(username=author['username'], email=author['email'])
     tags = [Tag.objects.get(name=tag['name']) for tag in content['tags']]
     body = content['body']
     promo = content['promo']
-    article_object = Article(
-        author=author,
-        body=body,
-        promo=promo,
-    )
-    article_object.save()
-    article_object.tags.set(tags)
+    publish_at = datetime.strptime(content['publish_at'], '%Y-%m-%dT%H:%M:%SZ')
+    headline = content['headline']
+
+    try:
+        article = Article.objects.get(body=body)
+    except Article.DoesNotExist:
+        article_object = Article(
+            author=author,
+            body=body,
+            promo=promo,
+            headline=headline,
+            publish_at=publish_at,
+        )
+        article_object.save()
+        article_object.tags.set(tags)
 
 image_objects = []
 for content in contents:
@@ -56,3 +64,26 @@ for content in contents:
         )
 
 Image.objects.bulk_create(image_objects)
+
+
+
+quotes = json.load(open('quotes_api.json'))
+
+for quote in quotes:
+    company_name = quote['CompanyName']
+    symbol = quote['Symbol']
+    current_price = quote['CurrentPrice']['Amount']
+    change = quote['Change']['Amount']
+    exchange = StockTicker.Exchange._member_map_[quote['Exchange']]
+    sector = StockTicker.Sector._value2member_map_[quote['Sector']]
+    try:
+        StockTicker(
+            company_name=company_name,
+            symbol=symbol,
+            current_price=current_price,
+            change=change,
+            exchange=exchange,
+            sector=sector,
+        ).save()
+    except:
+        continue

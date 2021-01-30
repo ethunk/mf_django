@@ -1,0 +1,162 @@
+{% extends 'blogs/base_layout.html' %}
+
+{% block content %}
+<div class="container top-bar article-top-bar">
+    <a href="home.html" class="btn btn-primary">HOME</a>
+</div>
+<div class="container article-content-inner">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="article-header">
+                <header>
+                    <div id="adv_text" class="adv-heading"></div>
+                    <h1>{{ article.headline }}</h1>
+                    <!--<h2>You won't believe the specs on these new all-electric vehicles. </h2>-->
+                </header>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <main class="col-sm-7 col-md-8">
+            <div class="author-tagline author-inline">
+                <div class="author-and-date">
+                    <div class="author-byline">
+                        <div class="author-name"> {{ article.author.full_name }} </div>
+                        <div class="author-username">
+                            <!--(<a href="#">TMFDanielSparks</a>)-->
+                        </div>
+                    </div>
+                    <div class="article-pub-date">
+                        <div class="publication-date">
+                            {{ article.published_at }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <section class="article-body">
+                <div class="article-content">
+                    {{ article.body|safe }}
+                </div>
+                <div class="article-disclosure">
+                    {{ article.disclosure|safe }}
+                </div>
+                <div class="special-message">
+                    <p><strong>At vero eos et accusamus et iusto odio dignissimos<br></strong>Temporibus autem quibusdam
+                        et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint
+                        et molestiae non recusandae.</p>
+                    <p>On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and
+                        demoralized by the charms of pleasure of the moment,</p>
+                    <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                        labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                    <p><a class="btn" href="#">Learn more</a></p>
+                </div>
+            </section>
+        </main>
+        <aside class="col-sm-5 col-md-4 p-l">
+            <section class="related-tickers">
+                <div class="block-title">
+                    <hr>
+                    <h2>Stocks</h2>
+                </div>
+                <div class="ticker-row">
+                    <div>
+                        <span class="image-wrap">
+                            <a href="#">
+                                <img src="{% static 'images/related-1.png' %}" class="img-responsive" alt="">
+                            </a>
+                        </span>
+                        <h3>{{ ticker.company_name }}</h3>
+                        <h4>
+                            <span class="ticker">
+                                <a title="{{ f'{ticker.company_name}' Stock Quote }}" href="#">
+                                    {{ f'{ticker.exchange_name}:'}}<span class="symbol">{{ ticker.symbol }}</span>
+                                </a>
+                            </span>
+                        </h4>
+                        <aside class="price-quote-container">
+                            <h4 class="current-price">
+                                $170.15
+                            </h4>
+                            <h4 class="price-change-amount price-neg">
+                                $0.95
+                            </h4>
+                            <h4 class="price-change-percent price-neg">
+                                (-0.56%)
+                            </h4>
+                        </aside>
+                    </div>
+                </div>
+                <div class="ticker-row">
+                    <div>
+                        <span class="image-wrap">
+                            <a href="#">
+                                <img src="{% static 'images/related-2.png' %}" class="img-responsive" alt="">
+                            </a>
+                        </span>
+                        <h3>Tesla</h3>
+                        <h4>
+                            <span class="ticker">
+                                <a title="Tesla Stock Quote" href="#">
+                                    NASDAQ:<span class="symbol">TSLA</span>
+                                </a>
+                            </span>
+                        </h4>
+                        <aside class="price-quote-container">
+                            <h4 class="current-price">
+                                $315.05
+                            </h4>
+                            <h4 class="price-change-amount price-pos">
+                                $2.55
+                            </h4>
+                            <h4 class="price-change-percent price-pos">
+                                (0.82%)
+                            </h4>
+                        </aside>
+                    </div>
+                </div>
+                <div class="ticker-row">
+                    <div>
+                        <span class="image-wrap">
+                            <a href="#">
+                                <img src="{% static 'images/related-3.png' %}" class="img-responsive" alt="">
+                            </a>
+                        </span>
+                        <h3>Twitter</h3>
+                        <h4>
+                            <span class="ticker">
+                                <a title="Tesla Stock Quote" href="#">
+                                    NYSE:<span class="symbol">TWTR</span>
+                                </a>
+                            </span>
+                        </h4>
+                        <aside class="price-quote-container">
+                            <h4 class="current-price">
+                                $315.05
+                            </h4>
+                            <h4 class="price-change-amount price-pos">
+                                $2.55
+                            </h4>
+                            <h4 class="price-change-percent price-pos">
+                                (0.82%)
+                            </h4>
+                        </aside>
+                    </div>
+                </div>
+            </section>
+            <section class="read-more-section">
+                <div class="block-title">
+                    <hr>
+                    <h2>Read More</h2>
+                </div>
+                <ul class="two-line-list">
+                    <li><a href="#">It is a long established fact that a reader</a></li>
+                    <li><a href="#">Many desktop publishing packages and web page editors now use</a></li>
+                    <li><a href="#">Contrary to popular belief, Lorem Ipsum is not simply random text</a></li>
+                    <li><a href="#">There are many variations of passa</a></li>
+                    <li><a href="#">If you are going to use a passage of Lorem Ipsum</a></li>
+                </ul>
+            </section>
+        </aside>
+    </div>
+</div>
+{% endblock %}
