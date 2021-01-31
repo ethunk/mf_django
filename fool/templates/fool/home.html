@@ -7,20 +7,24 @@
 </div>
 <div class="container content-inner">
     <div class="main-col">
-        <section class="jumbo-card card">
-            <div class="card-image">
-                <a href="article/{{ main_article.pk }}"><img src="{{ main_article.image_set.latest.url }}" alt="" class="img-responsive"></a>
-            </div>
-            <div class="card-elements">
-                <div class="card-header">
-                    <a href="article/{{ main_article.pk }}"><h3>{{ main_article.headline }}</h3></a>
-                    <p class="author">{{ main_article.author.full_name }} | {{ main_article.publish_at }} </p>
+        <a href="article/{{ main_article.pk }}">
+            <section class="jumbo-card card">
+                <div class="card-image">
+                    <img src="{{ main_article.image_set.latest.url }}" alt="" class="img-responsive">
                 </div>
-                <div class="card-copy">
-                    <p>{{ main_article.promo }}</p>
+                <div class="card-elements">
+                    <div class="card-header">
+                        <a href="article/{{ main_article.pk }}">
+                            <h3>{{ main_article.headline }}</h3>
+                        </a>
+                        <p class="author">{{ main_article.author.full_name }} | {{ main_article.publish_at }} </p>
+                    </div>
+                    <div class="card-copy">
+                        <p>{{ main_article.promo }}</p>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </a>
     </div>
 
     <div class="cards row">
@@ -31,17 +35,18 @@
                     <img src="{{ article.image_set.latest.url }}" alt="">
                 </a>
             </div>
-            <div class="card-elements">
-                <div class="card-header">
-                    <a href="article/{{ article.pk }}">
+            <a href="article/{{ article.pk }}">
+                <div class="card-elements">
+
+                    <div class="card-header">
                         <h4>{{ article.headlines }}</h4>
-                    </a>
-                    <p class="author">{{ article.author.full_name }} | {{ article.publish_at }} </p>
+                        <p class="author">{{ article.author.full_name }} | {{ article.publish_at }} </p>
+                    </div>
+                    <div class="card-copy">
+                        <p>{{ article.promo }}</p>
+                    </div>
                 </div>
-                <div class="card-copy">
-                    <p>{{ article.promo }}</p>
-                </div>
-            </div>
+            </a>
         </div>
         {% endfor %}
     </div>
