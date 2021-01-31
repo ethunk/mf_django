@@ -1,5 +1,5 @@
 import json
-from blogs.models import Author, Tag, Article, Image, StockTicker
+from fool.models import Author, Tag, Article, Image, StockTicker
 from datetime import datetime
 
 
@@ -19,14 +19,18 @@ for content in contents:
             short_bio=author['short_bio'],
         )
     )
+
+Author.objects.bulk_create(list(set(authors)))
+
 tag_objects = []
 for content in contents:
     tags = content['tags']
     tag_objects = []
     for tag in tags:
-        tag_objects.append(Tag(name=tag['name']))
-
-    Tag.objects.bulk_create(tag_objects)
+        try:
+            Tag(name=tag['name']).save()
+        except:
+            pass
 
 article_objects = []
 for content in contents:
@@ -37,33 +41,30 @@ for content in contents:
     promo = content['promo']
     publish_at = datetime.strptime(content['publish_at'], '%Y-%m-%dT%H:%M:%SZ')
     headline = content['headline']
+    disclosure = content['disclosure']
 
-    try:
-        article = Article.objects.get(body=body)
-    except Article.DoesNotExist:
-        article_object = Article(
+    article = Article.objects.create_or_update(
             author=author,
             body=body,
             promo=promo,
             headline=headline,
             publish_at=publish_at,
-        )
-        article_object.save()
-        article_object.tags.set(tags)
+            disclosure=disclosure,
+
+    )
+
+    article.tags.set(tags)
 
 image_objects = []
 for content in contents:
     article = Article.objects.get(promo=content['promo'])
     for image in content['images']:
-        image_objects.append(
-            Image(
+        Image.objects.update_or_create(
                 name=image['name'],
                 url=image['url'],
                 article=article,
-            )
+                modified=datetime.strptime(image['modified'], '%Y-%m-%dT%H:%M:%S.%fZ')
         )
-
-Image.objects.bulk_create(image_objects)
 
 
 

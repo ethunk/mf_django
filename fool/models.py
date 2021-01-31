@@ -1,13 +1,14 @@
+from builtins import property
 from enum import Enum, IntEnum
 from typing import Text
+
 from django.db import models
-from django.db.models.fields import CharField, URLField
+from django.db.models.fields import CharField, DateTimeField, URLField
 from django.db.models.fields.related import ForeignKey
-from django_extensions.db.fields import AutoSlugField
-
-
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
+from django_extensions.db.fields import AutoSlugField
+
 
 class Article(models.Model):
     author = models.ForeignKey('Author', on_delete=models.CASCADE)
@@ -48,9 +49,12 @@ class Image(models.Model):
     name = CharField(max_length=255)
     url = models.URLField(max_length=255)
     article = models.ForeignKey('Article', on_delete=models.CASCADE)
-
+    modified = DateTimeField(null=True)
     def __str__(self):
         return self.name
+
+    class Meta:
+        get_latest_by = ['modified']
 
 
 class Tag(models.Model):
@@ -101,9 +105,33 @@ class StockTicker(models.Model):
 
     @property
     def percent_change(self):
-        return '{:.2%}'.format(self.change / self.current_price)
+        if self.change and self.current_price:
+            return '{:.2%}'.format(self.change / self.current_price)
+        else:
+
+            return '{:.2%}'.format(0)
+
+    @property
+    def exchange_name(self):
+        return self.Exchange._value2member_map_.get(self.exchange)._name_
 
 
 @receiver(pre_save, sender=StockTicker)
 def upper_case_symbol(sender, instance, *args, **kwargs):
     instance.symbol = instance.symbol.upper()
+
+
+class Comment(models.Model):
+    article = models.ForeignKey('Article', on_delete=models.CASCADE, related_name='comments')
+    name = models.CharField(max_length=80)
+    body = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    active = models.BooleanField(default=True)
+    title = models.CharField(max_length=60, null=False, default='Untitled')
+
+    class Meta:
+        ordering = ('created',)
+
+    def __str__(self):
+        return '{}: {}'.format(self.name, self.body[0:30])

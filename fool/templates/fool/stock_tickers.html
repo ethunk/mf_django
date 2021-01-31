@@ -1,0 +1,48 @@
+{% load static %}
+<section class="related-tickers">
+    <div class="block-title">
+        <hr>
+        <h2>Stocks</h2>
+    </div>
+    {% for ticker in tickers %}
+    <div class="ticker-row">
+        <div>
+            <span class="image-wrap">
+                <a href="#">
+                    {% if ticker.change >= 0 %}
+                    <img src="{% static 'images/green-positive.png' %}" class="img-responsive" alt="">
+                    {% else %}
+                    <img src="{% static 'images/red-negative.png' %}" class="img-responsive" alt="">
+                    {% endif %}
+                </a>
+            </span>
+            <h3>{{ ticker.company_name }}</h3>
+            <h4>
+                <span class="ticker">
+                    <a title="{{ ticker.company_name }} Stock Quote" href="#">
+                        {{ ticker.exchange_name }}: <span class="symbol">{{ ticker.symbol }}</span>
+                    </a>
+                </span>
+            </h4>
+            <aside class="price-quote-container">
+                <h4 class="current-price">
+                    ${{ ticker.current_price }}
+                </h4>
+                <h4 class="price-change-amount {% if ticker.change >= 0 %}price-pos{% else %}price-neg {% endif %}">
+                    ${{ ticker.change }}
+                </h4>
+                <h4 class="price-change-percent {% if ticker.change >= 0 %}price-pos{% else %}price-neg {% endif %}">
+                    ({{ ticker.percent_change }})
+                </h4>
+            </aside>
+        </div>
+    </div>
+    {% endfor %}
+</section>
+<section>
+    <table width="100%">
+        <tr>
+            <td align="center"><button onclick="shuffleTickers()" class="btn">Shuffle</button></td>
+        </tr>
+    </table>
+</section>

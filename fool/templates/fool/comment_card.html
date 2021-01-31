@@ -1,0 +1,29 @@
+{% for comment in comments %}
+    <div class="special-message">
+        <p><strong>{{ comment.title }}</strong> <span style="font-size: small;"> ({{ comment.name }})</span><br></p>
+        <p>{{ comment.body|linebreaks }}</p>
+    </div>
+{% empty %}
+    <div class="special-message">
+        <p>There are no comments yet.</p>
+    </div>
+{% endfor %}
+
+
+<form class="post-form" method="post">
+    {% csrf_token %}
+    {{ comment_form.as_table }}
+    <button type="submit" class="submitbtn">Comment</button>
+</form>
+
+
+<!-- <div class="special-message">
+    <p><strong>At vero eos et accusamus et iusto odio dignissimos<br></strong>Temporibus autem quibusdam
+        et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint
+        et molestiae non recusandae.</p>
+    <p>On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and
+        demoralized by the charms of pleasure of the moment,</p>
+    <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+        labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+    <p><a class="btn" href="#">Learn more</a></p>
+</div> -->

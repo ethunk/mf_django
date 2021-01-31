@@ -1,0 +1,49 @@
+{% extends 'fool/base_layout.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container top-bar">
+    <a href="/" class="btn btn-primary">HOME</a>
+</div>
+<div class="container content-inner">
+    <div class="main-col">
+        <section class="jumbo-card card">
+            <div class="card-image">
+                <a href="article/{{ main_article.pk }}"><img src="{{ main_article.image_set.latest.url }}" alt="" class="img-responsive"></a>
+            </div>
+            <div class="card-elements">
+                <div class="card-header">
+                    <a href="article/{{ main_article.pk }}"><h3>{{ main_article.headline }}</h3></a>
+                    <p class="author">{{ main_article.author.full_name }} | {{ main_article.publish_at }} </p>
+                </div>
+                <div class="card-copy">
+                    <p>{{ main_article.promo }}</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="cards row">
+        {% for article in secondary_articles %}
+        <div class="card">
+            <div class="card-image">
+                <a href="article/{{ article.pk }}">
+                    <img src="{{ article.image_set.latest.url }}" alt="">
+                </a>
+            </div>
+            <div class="card-elements">
+                <div class="card-header">
+                    <a href="article/{{ article.pk }}">
+                        <h4>{{ article.headlines }}</h4>
+                    </a>
+                    <p class="author">{{ article.author.full_name }} | {{ article.publish_at }} </p>
+                </div>
+                <div class="card-copy">
+                    <p>{{ article.promo }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

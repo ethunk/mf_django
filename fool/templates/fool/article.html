@@ -1,0 +1,54 @@
+{% extends 'fool/base_layout.html' %}
+{% load static %}
+{% block content %}
+<div class="container top-bar article-top-bar">
+    <a href="/fool/home" class="btn btn-primary">HOME</a>
+</div>
+<div class="container article-content-inner">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="article-header">
+                <header>
+                    <div id="adv_text" class="adv-heading"></div>
+                    <h1>{{ article.headline }}</h1>
+                    <!--<h2>You won't believe the specs on these new all-electric vehicles. </h2>-->
+                </header>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <main class="col-sm-7 col-md-8">
+            <div class="author-tagline author-inline">
+                <div class="author-and-date">
+                    <div class="author-byline">
+                        <div class="author-name"> {{ article.author.full_name }} </div>
+                        <div class="author-username">
+                            <!--(<a href="#">TMFDanielSparks</a>)-->
+                        </div>
+                    </div>
+                    <div class="article-pub-date">
+                        <div class="publication-date">
+                            {{ article.published_at }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <section class="article-body">
+                <div class="article-content">
+                    {{ article.body|safe }}
+                </div>
+                <div class="article-disclosure">
+                    {{ article.disclosure|safe }}
+                </div>
+                {% include 'fool/comment_card.html' %}
+            </section>
+        </main>
+        <aside class="col-sm-5 col-md-4 p-l">
+            {% include 'fool/stock_tickers.html' %}
+            {% include 'fool/read_more.html' %}
+            {% block read_more %}
+            {% endblock %}
+        </aside>
+    </div>
+</div>
+{% endblock %}

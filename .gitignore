@@ -1,7 +1,12 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
 venv/*
 db.sqlite3
 .envrc
 .DS_Store
 *__pycache__
 *__pycache__/*.pyc
-__pycache__/
+__pycache__/*
+*.pyc

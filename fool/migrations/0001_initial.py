@@ -34,7 +34,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=255)),
                 ('url', models.URLField(max_length=255)),
-                ('article', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='blogs.Article')),
+                ('article', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='fool.Article')),
             ],
         ),
         migrations.CreateModel(
@@ -55,11 +55,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='article',
             name='author',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='blogs.Author'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='fool.Author'),
         ),
         migrations.AddField(
             model_name='article',
             name='tags',
-            field=models.ManyToManyField(to='blogs.Tag'),
+            field=models.ManyToManyField(to='fool.Tag'),
         ),
     ]
