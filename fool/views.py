@@ -28,7 +28,6 @@ def article(request, article_id):
     article = Article.objects.get(id=article_id)
     tickers = StockTicker.objects.all().order_by('?')[0:6]
     comments = article.comments.all()
-    comment_form = CommentForm()
 
     if request.method == 'POST':
         comment_form = CommentForm(data=request.POST)
@@ -37,6 +36,7 @@ def article(request, article_id):
             comment['article_id'] = article.pk
             Comment(**comment).save()
 
+    comment_form = CommentForm()
     context = {
         'article': article,
         'tickers': tickers,
