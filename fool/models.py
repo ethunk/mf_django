@@ -14,7 +14,7 @@ class Article(models.Model):
     author = models.ForeignKey('Author', on_delete=models.CASCADE)
     tags = models.ManyToManyField('Tag')
     body = models.TextField(max_length=8000, unique=True)
-    promo = models.CharField(max_length=400, null=True)
+    promo = models.CharField(max_length=400, null=True, unique=True)
     headline = models.CharField(max_length=400, null=True)
     publish_at = models.DateTimeField(null=True)
     disclosure = models.CharField(max_length=800, null=True)
