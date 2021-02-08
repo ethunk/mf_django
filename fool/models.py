@@ -8,6 +8,7 @@ from django.db.models.fields.related import ForeignKey
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django_extensions.db.fields import AutoSlugField
+import ipdb
 
 
 class Article(models.Model):
@@ -21,10 +22,11 @@ class Article(models.Model):
 
     @property
     def by_line(self):
-        return f'{self.author.first_name} {self.author.last_name}'
+        return f'{self.author.full_name}'
 
     def __str__(self):
         return f'{self.by_line}: {self.promo[:16]}'
+
 
 class Author(models.Model):
     username = models.CharField(max_length=36)
@@ -43,6 +45,9 @@ class Author(models.Model):
 
     @property
     def full_name(self):
+        if self.first_name is None and self.last_name is None:
+            return 'Anonymous'
+
         return f'{self.first_name} {self.last_name}'
 
 class Image(models.Model):
@@ -50,6 +55,7 @@ class Image(models.Model):
     url = models.URLField(max_length=255)
     article = models.ForeignKey('Article', on_delete=models.CASCADE)
     modified = DateTimeField(null=True)
+
     def __str__(self):
         return self.name
 
@@ -108,7 +114,6 @@ class StockTicker(models.Model):
         if self.change and self.current_price:
             return '{:.2%}'.format(self.change / self.current_price)
         else:
-
             return '{:.2%}'.format(0)
 
     @property
